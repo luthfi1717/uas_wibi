@@ -14,13 +14,7 @@ class LookKontak extends StatefulWidget {
 class _LookKontakState extends State<LookKontak> {
   DbObat db = DbObat();
 
-  TextEditingController? Nama;
-  TextEditingController? Alamat;
-  TextEditingController? Kota;
-  TextEditingController? Notlp;
-  TextEditingController? Email;
-
-   TextEditingController? NamaObat;
+  TextEditingController? NamaObat;
   TextEditingController? MerkObat;
   TextEditingController? JenisObat;
   TextEditingController? StockObat;
@@ -112,6 +106,27 @@ class _LookKontakState extends State<LookKontak> {
                     borderRadius: BorderRadius.circular(8),
                   )),
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 20,
+            ),
+            child: Row(
+              children: [
+                Flexible(
+                    child: TextField(
+                      enabled: false,
+                      controller: StockObat,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          icon: Icon(
+                            Icons.storage,
+                            color: Color(0xff00aec4),
+                          )),
+                    ),
+                ),
+              ],
+            )
           ),
           Padding(
             padding: const EdgeInsets.only(

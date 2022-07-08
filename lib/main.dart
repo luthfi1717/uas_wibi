@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uas_wibi/screnn/Data_Obat.dart';
+import 'package:uas_wibi/screnn/Menu_Page.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Data_Obat(),
+      home: MyHomePage(),
     );
   }
 }

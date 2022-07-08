@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:uas_wibi/edit_screen/edit_dataobat.dart';
 import 'package:uas_wibi/database/db_obat.dart';
 import 'package:uas_wibi/model/crud_dataobat.dart';
-import 'package:uas_wibi/screnn/Detail_Obat.dart';
+import 'package:uas_wibi/screnn/widget/Detail_Obat.dart';
 
 
 class Data_Obat extends StatefulWidget {
@@ -32,6 +32,7 @@ class _Data_Obat extends State<Data_Obat> {
     return Scaffold(
        appBar: AppBar(
           centerTitle: true,
+          backgroundColor: Colors.green,
           title: const Text(
             'Data Obat',
             style: TextStyle(fontFamily: 'Montserrat'),
@@ -41,105 +42,138 @@ class _Data_Obat extends State<Data_Obat> {
           itemCount: listKontak.length,
           itemBuilder: (context, index) {
             Kontak kontak = listKontak[index];
-            return Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: ListTile(
-                leading: Icon(
-                  Icons.accessibility_new,
-                  size: 50,
-                ),
-                title: Text('${kontak.NamaObat}'),
-                subtitle: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 8,
+            return Container(
+              child: Card(
+                child: InkWell(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10, bottom: 10),
+                    child: ListTile(
+                      leading: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children:<Widget>[ Icon(
+                          Icons.accessibility_new,
+                          size: 50,
+                          )
+                        ]
                       ),
-                      child: Text("Merk Obat: ${kontak.MerkObat}"),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 8,
-                      ),
-                      child: Text("Jenis Obat: ${kontak.JenisObat}"),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 8,
-                      ),
-                      child: Text("Stock Obat: ${kontak.StockObat}"),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 8,
-                      ),
-                      child: Text("Harga Obat: ${kontak.HargaObat}"),
-                    ),
-                  ],
-                ),
-                trailing: FittedBox(
-                  fit: BoxFit.fill,
-                  child: Row(
-                    children: [
-                      // button edit
-                      IconButton(
-                          onPressed: () {
-                            _openFormEdit(kontak);
-                          },
-                          icon: Icon(Icons.edit),
-                          ),
-                     IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: (){
-                          //membuat dialog konfirmasi hapus
-                          AlertDialog hapus = AlertDialog(
-                            title: Text("Information"),
-                            content: Container(
-                              height: 100,
-                              child: Column(
-                                children: [
-                                  Text(
-                                      "Yakin ingin Menghapus Data ${kontak.NamaObat}"
-                                  )
-                                ],
-                              ),
+                      title: Text('${kontak.NamaObat}'),
+                      subtitle: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 8,
                             ),
-                            //terdapat 2 button.
-                            //jika ya maka jalankan _deleteKontak() dan tutup dialog
-                            //jika tidak maka tutup dialog
-                            actions: [
-                              TextButton(
-                                  onPressed: (){
-                                    _deleteKontak(kontak, index);
-                                  },
-                                  child: Text("Ya")
-                              ),
-                              TextButton(
-                                child: Text('Tidak'),
-                                onPressed: () {
-                                },
-                              ),
-                            ],
-                          );
-                          showDialog(context: context, builder: (context) => hapus);
-                        },
-                      ),
-                        IconButton(
-                          onPressed: () {
-                            _openFormLook(kontak);
-                          },
-                          icon: Icon(Icons.visibility),
-                          color: Color(0xff00aec4),
+                            child: Text("Merk Obat: ${kontak.MerkObat}"),
                           ),
-                    ],
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 8,
+                            ),
+                            child: Text("Jenis Obat: ${kontak.JenisObat}"),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 8,
+                            ),
+                            child: Text("Stock Obat: ${kontak.StockObat}"),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 8,
+                            ),
+                            child: Text("Harga Obat: ${kontak.HargaObat}"),
+                          ),
+                        ],
+                      ),
+                      trailing: FittedBox(
+                        fit: BoxFit.fill,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children:<Widget>[
+                            Row(
+                              children: [
+                                // button edit
+                                IconButton(
+                                  onPressed: () {
+                                    _openFormEdit(kontak);
+                                  },
+                                  icon: Icon(Icons.edit),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.delete),
+                                  onPressed: (){
+                                    //membuat dialog konfirmasi hapus
+                                    AlertDialog hapus = AlertDialog(
+                                      title: Text("Information"),
+                                      content: Container(
+                                        height: 100,
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                                "Yakin ingin Menghapus Data ${kontak.NamaObat}"
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      //terdapat 2 button.
+                                      //jika ya maka jalankan _deleteKontak() dan tutup dialog
+                                      //jika tidak maka tutup dialog
+                                      actions: [
+                                        TextButton(
+                                            onPressed: (){
+                                              _deleteKontak(kontak, index);
+                                              Navigator.push(
+                                                  context, MaterialPageRoute(builder: (context) => Data_Obat()));
+                                            },
+                                            child: Text("Ya")
+                                        ),
+                                        TextButton(
+                                          child: Text('Tidak'),
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context, MaterialPageRoute(builder: (context) => Data_Obat()));
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                    showDialog(context: context, builder: (context) => hapus);
+                                  },
+                                ),
+                                // IconButton(
+                                //   onPressed: () {
+                                //     _openFormLook(kontak);
+                                //   },
+                                //   icon: Icon(Icons.visibility),
+                                // ),
+                              ],
+                            ),
+                          ],
+                        )
+                      ),
+                    ),
                   ),
+                onTap: () {
+                _openFormLook(kontak);
+                  }
                 ),
+              ),
+              decoration: new BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(.2),
+                    blurRadius: 50.0, // soften the shadow
+                    spreadRadius: 0.0, //extend the shadow
+                    offset: Offset(
+                      5.0, // Move to right 10  horizontally
+                      5.0, // Move to bottom 10 Vertically
+                    ),
+                  ),
+                ],
               ),
             );
           }),
-      //membuat button mengapung di bagian bawah kanan layar
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
