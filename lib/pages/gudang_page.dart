@@ -1,29 +1,63 @@
 import 'package:flutter/material.dart';
-// import 'package:uas_luthfi_2042401/screen/Data_Matkul.dart';
 
-// import 'package:uas_wibi/screen/Login_Screen.dart';
-import 'package:uas_wibi/edit_screen/edit_dataobat.dart';
 import 'package:uas_wibi/database/db_obat.dart';
-import 'package:uas_wibi/model/crud_dataobat.dart';
-import 'package:uas_wibi/screnn/widget/Detail_Obat.dart';
+import 'package:uas_wibi/model/dataobat.dart';
+import 'package:uas_wibi/pages/kasir_page.dart';
+import 'package:uas_wibi/pages/widget/detail_page.dart';
+import 'package:uas_wibi/pages/widget/add_edit_page.dart';
 
 
-class Data_Obat extends StatefulWidget {
-  const Data_Obat({Key? key}) : super(key: key);
-  final appTitle = 'Data Obat';
+class GudangMenuPage extends StatefulWidget {
+  const GudangMenuPage({Key? key}) : super(key: key);
 
   @override
-  _Data_Obat createState() => _Data_Obat();
+  _GudangMenuPageState createState() => _GudangMenuPageState();
 }
 
-class _Data_Obat extends State<Data_Obat> {
-  List<Kontak> listKontak = [];
+class _GudangMenuPageState extends State<GudangMenuPage> {
+  int _selectedScreenIndex = 0;
+  final List _screens = [
+    {"screen": const GudangPage(), "title": "Screen A Title"},
+    {"screen": const KasirPage(), "title": "Screen B Title"}
+  ];
+
+  void _selectScreen(int index) {
+    setState(() {
+      _selectedScreenIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _screens[_selectedScreenIndex]["screen"],
+      bottomNavigationBar: BottomNavigationBar(
+        fixedColor: Colors.green,
+        currentIndex: _selectedScreenIndex,
+        onTap: _selectScreen,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.storage), label: "Gudang"),
+          BottomNavigationBarItem(icon: Icon(Icons.calculate_sharp), label: "Kasir")
+        ],
+      ),
+    );
+  }
+}
+
+class GudangPage extends StatefulWidget {
+  const GudangPage({Key? key}) : super(key: key);
+
+  @override
+  GudangPageState createState() => GudangPageState();
+}
+
+class GudangPageState extends State<GudangPage> {
+  List<Obat> listObat = [];
   DbObat db = DbObat();
 
   @override
   void initState() {
-    //menjalankan fungsi getallkontak saat pertama kali dimuat
-    _getAllKontak();
+    _getAllObat();
     super.initState();
   }
 
@@ -31,17 +65,18 @@ class _Data_Obat extends State<Data_Obat> {
   Widget build(BuildContext context) {
     return Scaffold(
        appBar: AppBar(
+          automaticallyImplyLeading: false,
           centerTitle: true,
           backgroundColor: Colors.green,
           title: const Text(
-            'Data Obat',
+            'Gudang Obat',
             style: TextStyle(fontFamily: 'Montserrat'),
           ),
         ),
       body: ListView.builder(
-          itemCount: listKontak.length,
+          itemCount: listObat.length,
           itemBuilder: (context, index) {
-            Kontak kontak = listKontak[index];
+            Obat obat = listObat[index];
             return Container(
               child: Card(
                 child: InkWell(
@@ -56,7 +91,7 @@ class _Data_Obat extends State<Data_Obat> {
                           )
                         ]
                       ),
-                      title: Text('${kontak.NamaObat}'),
+                      title: Text('${obat.NamaObat}'),
                       subtitle: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,25 +100,25 @@ class _Data_Obat extends State<Data_Obat> {
                             padding: const EdgeInsets.only(
                               top: 8,
                             ),
-                            child: Text("Merk Obat: ${kontak.MerkObat}"),
+                            child: Text("Merk Obat: ${obat.MerkObat}"),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(
                               top: 8,
                             ),
-                            child: Text("Jenis Obat: ${kontak.JenisObat}"),
+                            child: Text("Jenis Obat: ${obat.JenisObat}"),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(
                               top: 8,
                             ),
-                            child: Text("Stock Obat: ${kontak.StockObat}"),
+                            child: Text("Stock Obat: ${obat.StockObat}"),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(
                               top: 8,
                             ),
-                            child: Text("Harga Obat: ${kontak.HargaObat}"),
+                            child: Text("Harga Obat: ${obat.HargaObat}"),
                           ),
                         ],
                       ),
@@ -93,11 +128,12 @@ class _Data_Obat extends State<Data_Obat> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children:<Widget>[
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 // button edit
                                 IconButton(
                                   onPressed: () {
-                                    _openFormEdit(kontak);
+                                    _openFormEdit(obat);
                                   },
                                   icon: Icon(Icons.edit),
                                 ),
@@ -112,28 +148,23 @@ class _Data_Obat extends State<Data_Obat> {
                                         child: Column(
                                           children: [
                                             Text(
-                                                "Yakin ingin Menghapus Data ${kontak.NamaObat}"
+                                                "Yakin ingin Menghapus Data ${obat.NamaObat}"
                                             )
                                           ],
                                         ),
                                       ),
-                                      //terdapat 2 button.
-                                      //jika ya maka jalankan _deleteKontak() dan tutup dialog
-                                      //jika tidak maka tutup dialog
                                       actions: [
                                         TextButton(
                                             onPressed: (){
-                                              _deleteKontak(kontak, index);
-                                              Navigator.push(
-                                                  context, MaterialPageRoute(builder: (context) => Data_Obat()));
+                                              _deleteObat(obat, index);
+                                              Navigator.pop(context);
                                             },
                                             child: Text("Ya")
                                         ),
                                         TextButton(
                                           child: Text('Tidak'),
                                           onPressed: () {
-                                            Navigator.push(
-                                                context, MaterialPageRoute(builder: (context) => Data_Obat()));
+                                            Navigator.pop(context);
                                           },
                                         ),
                                       ],
@@ -141,12 +172,12 @@ class _Data_Obat extends State<Data_Obat> {
                                     showDialog(context: context, builder: (context) => hapus);
                                   },
                                 ),
-                                // IconButton(
-                                //   onPressed: () {
-                                //     _openFormLook(kontak);
-                                //   },
-                                //   icon: Icon(Icons.visibility),
-                                // ),
+                                IconButton(
+                                  onPressed: () {
+                                    _openFormLook(obat);
+                                  },
+                                  icon: Icon(Icons.visibility),
+                                ),
                               ],
                             ),
                           ],
@@ -155,7 +186,6 @@ class _Data_Obat extends State<Data_Obat> {
                     ),
                   ),
                 onTap: () {
-                _openFormLook(kontak);
                   }
                 ),
               ),
@@ -175,6 +205,7 @@ class _Data_Obat extends State<Data_Obat> {
             );
           }),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
         child: Icon(Icons.add),
         onPressed: () {
           _openFormCreate();
@@ -183,55 +214,45 @@ class _Data_Obat extends State<Data_Obat> {
     );
   }
 
-  //mengambil semua data Kontak
-  Future<void> _getAllKontak() async {
-    //list menampung data dari database
-    var list = await db.getAllKontak();
-
-    //ada perubahanan state
+  //mengambil semua data Obat
+  Future<void> _getAllObat() async {
+    var list = await db.getAllObat();
     setState(() {
-      //hapus data pada listKontak
-      listKontak.clear();
-
-      //lakukan perulangan pada variabel list
-      list!.forEach((kontak) {
-        //masukan data ke listKontak
-        listKontak.add(Kontak.fromMap(kontak));
+      listObat.clear();
+      list!.forEach((obat) {
+        listObat.add(Obat.fromMap(obat));
       });
     });
   }
 
-  //menghapus data Kontak
-  Future<void> _deleteKontak(Kontak kontak, int position) async {
-    await db.deleteKontak(kontak.id!);
+  Future<void> _deleteObat(Obat obat, int position) async {
+    await db.deleteObat(obat.id!);
     setState(() {
-      listKontak.removeAt(position);
+      listObat.removeAt(position);
     });
   }
 
-  // membuka halaman tambah Kontak
   Future<void> _openFormCreate() async {
     var result = await Navigator.push(
-        context, MaterialPageRoute(builder: (context) => FormKontak()));
+        context, MaterialPageRoute(builder: (context) => AddEditPage()));
     if (result == 'save') {
-      await _getAllKontak();
+      await _getAllObat();
     }
   }
 
-  //membuka halaman edit Kontak
-  Future<void> _openFormEdit(Kontak kontak) async {
+  Future<void> _openFormEdit(Obat obat) async {
     var result = await Navigator.push(context,
-        MaterialPageRoute(builder: (context) => FormKontak(kontak: kontak)));
+        MaterialPageRoute(builder: (context) => AddEditPage(obat: obat)));
     if (result == 'update') {
-      await _getAllKontak();
+      await _getAllObat();
     }
   }
 
-  Future<void> _openFormLook(Kontak kontak) async {
+  Future<void> _openFormLook(Obat obat) async {
     var result = await Navigator.push(context,
-        MaterialPageRoute(builder: (context) => LookKontak(kontak: kontak)));
+        MaterialPageRoute(builder: (context) => DetailPage(obat: obat)));
     if (result == 'back') {
-      await _getAllKontak();
+      await _getAllObat();
     }
   }
 }

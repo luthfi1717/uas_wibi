@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+
 import 'package:uas_wibi/database/db_obat.dart';
-import 'package:uas_wibi/model/crud_dataobat.dart';
+import 'package:uas_wibi/model/dataobat.dart';
+import 'package:uas_wibi/pages/kasir_page.dart';
 
-class LookKontak extends StatefulWidget {
-  final Kontak? kontak;
+class DetailPage extends StatefulWidget {
+  final Obat? obat;
 
-  LookKontak({this.kontak});
+  DetailPage({this.obat});
 
   @override
-  _LookKontakState createState() => _LookKontakState();
+  _DetailPageState createState() => _DetailPageState();
 }
 
-class _LookKontakState extends State<LookKontak> {
+class _DetailPageState extends State<DetailPage> {
   DbObat db = DbObat();
 
   TextEditingController? NamaObat;
@@ -23,19 +25,19 @@ class _LookKontakState extends State<LookKontak> {
   @override
   void initState() {
     NamaObat = TextEditingController(
-        text: widget.kontak == null ? '' : widget.kontak!.NamaObat);
+        text: widget.obat == null ? '' : widget.obat!.NamaObat);
 
     MerkObat = TextEditingController(
-        text: widget.kontak == null ? '' : widget.kontak!.MerkObat);
+        text: widget.obat == null ? '' : widget.obat!.MerkObat);
 
     JenisObat = TextEditingController(
-        text: widget.kontak == null ? '' : widget.kontak!.JenisObat);
+        text: widget.obat == null ? '' : widget.obat!.JenisObat);
 
     StockObat = TextEditingController(
-        text: widget.kontak == null ? '' : widget.kontak!.StockObat);
+        text: widget.obat == null ? '' : widget.obat!.StockObat);
 
     HargaObat = TextEditingController(
-        text: widget.kontak == null ? '' : widget.kontak!.HargaObat);
+        text: widget.obat == null ? '' : widget.obat!.HargaObat);
 
     super.initState();
   }
@@ -44,6 +46,7 @@ class _LookKontakState extends State<LookKontak> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green,
         centerTitle: true,
         title: const Text(
           'Detail Data Obat',
@@ -166,17 +169,55 @@ class _LookKontakState extends State<LookKontak> {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 20),
-          )
+          ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        label: Text('Pesan Sekarang'),
+        icon: Icon(Icons.shopping_cart),
+        backgroundColor: Colors.green,
+        onPressed: () {
+          //membuat dialog konfirmasi hapus
+          AlertDialog hapus = AlertDialog(
+            title: Text("Information"),
+            content: Container(
+              height: 100,
+              child: Column(
+                children: [
+                  Text(
+                      "Yakin ingin Menghapus Data$HargaObat"
+                  )
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                  child: Text("Ya"),
+                  onPressed: (){
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => KasirMenuPage()));
+                  },
+              ),
+              TextButton(
+                  child: Text('Tidak'),
+                  onPressed: () {
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => KasirMenuPage()));
+                  },
+              ),
+            ],
+          );
+          showDialog(context: context, builder: (context) => hapus);
+        },
       ),
     );
   }
 
-  Future<void> upsertKontak() async {
-    if (widget.kontak != null) {
+  Future<void> upsertObat() async {
+    if (widget.obat != null) {
       //update
-      await db.updateKontak(Kontak.fromMap({
-        'id': widget.kontak!.id,
+      await db.updateObat(Obat.fromMap({
+        'id': widget.obat!.id,
         'NamaObat': NamaObat!.text,
         'MerkObat': MerkObat!.text,
         'JenisObat': JenisObat!.text,

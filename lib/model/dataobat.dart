@@ -1,4 +1,4 @@
-class Kontak{
+class Obat{
   int? id;
   String? NamaObat;
   String? MerkObat;
@@ -6,7 +6,7 @@ class Kontak{
   String? StockObat;
   String? HargaObat;
 
-  Kontak({this.id, this.NamaObat, this.MerkObat, this.JenisObat, this.StockObat, this.HargaObat});
+  Obat({this.id, this.NamaObat, this.MerkObat, this.JenisObat, this.StockObat, this.HargaObat});
 
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
@@ -23,7 +23,7 @@ class Kontak{
     return map;
   }
 
-  Kontak.fromMap(Map<String, dynamic> map) {
+  Obat.fromMap(Map<String, dynamic> map) {
     this.id = map['id'];
     this.NamaObat = map['NamaObat'];
     this.MerkObat = map['MerkObat'];

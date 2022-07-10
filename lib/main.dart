@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:uas_wibi/screnn/Menu_Page.dart';
+
+import 'package:uas_wibi/pages/gudang_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,7 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
+      home: GudangMenuPage(),
     );
   }
 }

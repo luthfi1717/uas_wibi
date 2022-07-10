@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+
 import 'package:uas_wibi/database/db_obat.dart';
-import 'package:uas_wibi/model/crud_dataobat.dart';
+import 'package:uas_wibi/model/dataobat.dart';
 
-class FormKontak extends StatefulWidget {
-  final Kontak? kontak;
+class AddEditPage extends StatefulWidget {
+  final Obat? obat;
 
-  FormKontak({this.kontak});
+  AddEditPage({this.obat});
 
   @override
-  _FormKontakState createState() => _FormKontakState();
+  _AddEditPageState createState() => _AddEditPageState();
 }
 
-class _FormKontakState extends State<FormKontak> {
+class _AddEditPageState extends State<AddEditPage> {
   DbObat db = DbObat();
 
   TextEditingController? NamaObat;
@@ -23,19 +24,19 @@ class _FormKontakState extends State<FormKontak> {
   @override
   void initState() {
     NamaObat = TextEditingController(
-        text: widget.kontak == null ? '' : widget.kontak!.NamaObat);
+        text: widget.obat == null ? '' : widget.obat!.NamaObat);
 
     MerkObat = TextEditingController(
-        text: widget.kontak == null ? '' : widget.kontak!.MerkObat);
+        text: widget.obat == null ? '' : widget.obat!.MerkObat);
 
     JenisObat = TextEditingController(
-        text: widget.kontak == null ? '' : widget.kontak!.JenisObat);
+        text: widget.obat == null ? '' : widget.obat!.JenisObat);
 
     StockObat = TextEditingController(
-        text: widget.kontak == null ? '' : widget.kontak!.StockObat);
+        text: widget.obat == null ? '' : widget.obat!.StockObat.toString());
 
     HargaObat = TextEditingController(
-        text: widget.kontak == null ? '' : widget.kontak!.HargaObat);
+        text: widget.obat == null ? '' : widget.obat!.HargaObat.toString());
 
     super.initState();
   }
@@ -44,6 +45,7 @@ class _FormKontakState extends State<FormKontak> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green,
         centerTitle: true,
         title: const Text(
           'Form Data Obat',
@@ -60,7 +62,13 @@ class _FormKontakState extends State<FormKontak> {
             child: TextField(
               controller: NamaObat,
               decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 3, color: Colors.green),
+                  ),
                   labelText: 'Nama Obat',
+                  labelStyle: TextStyle(
+                    color: Colors.black,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   )),
@@ -73,7 +81,13 @@ class _FormKontakState extends State<FormKontak> {
             child: TextField(
               controller: MerkObat,
               decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 3, color: Colors.green),
+                  ),
                   labelText: 'Merk Obat',
+                  labelStyle: TextStyle(
+                    color: Colors.black,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   )),
@@ -86,7 +100,13 @@ class _FormKontakState extends State<FormKontak> {
             child: TextField(
               controller: JenisObat,
               decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 3, color: Colors.green),
+                  ),
                   labelText: 'Jenis Obat',
+                  labelStyle: TextStyle(
+                    color: Colors.black,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   )),
@@ -99,7 +119,13 @@ class _FormKontakState extends State<FormKontak> {
             child: TextField(
               controller: StockObat,
               decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 3, color: Colors.green),
+                  ),
                   labelText: 'Stock Obat',
+                  labelStyle: TextStyle(
+                    color: Colors.black,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   )),
@@ -112,22 +138,28 @@ class _FormKontakState extends State<FormKontak> {
             child: TextField(
               controller: HargaObat,
               decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 3, color: Colors.green),
+                  ),
                   labelText: 'Harga Obat',
+                  labelStyle: TextStyle(
+                    color: Colors.black,
+                    ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   )),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.only(top: 50),
             child: RaisedButton(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
               textColor: Colors.white,
-              color: Color(0xff00aec4),
-              child: (widget.kontak == null)
+              color: Colors.green,
+              child: (widget.obat == null)
                   ? Text(
                       'Save',
                       style: TextStyle(color: Colors.white),
@@ -137,7 +169,7 @@ class _FormKontakState extends State<FormKontak> {
                       style: TextStyle(color: Colors.white),
                     ),
               onPressed: () {
-                upsertKontak();
+                upsertObat();
               },
             ),
           )
@@ -146,11 +178,11 @@ class _FormKontakState extends State<FormKontak> {
     );
   }
 
-  Future<void> upsertKontak() async {
-    if (widget.kontak != null) {
+  Future<void> upsertObat() async {
+    if (widget.obat != null) {
       //update
-      await db.updateKontak(Kontak.fromMap({
-        'id': widget.kontak!.id,
+      await db.updateObat(Obat.fromMap({
+        'id': widget.obat!.id,
         'NamaObat': NamaObat!.text,
         'MerkObat': MerkObat!.text,
         'JenisObat': JenisObat!.text,
@@ -160,7 +192,7 @@ class _FormKontakState extends State<FormKontak> {
       Navigator.pop(context, 'update');
     } else {
       //insert
-      await db.saveKontak(Kontak(
+      await db.saveObat(Obat(
         NamaObat: NamaObat!.text,
         MerkObat: MerkObat!.text,
         JenisObat: JenisObat!.text,

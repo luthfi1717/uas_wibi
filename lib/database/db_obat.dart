@@ -1,7 +1,8 @@
-import 'package:uas_wibi/model/crud_dataobat.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
 import 'package:path/path.dart';
+
+import 'package:uas_wibi/model/dataobat.dart';
 
 class DbObat {
   static final DbObat _instance = DbObat._internal();
@@ -30,7 +31,7 @@ class DbObat {
 
   Future<Database?> _initDb() async {
     String databasePath = await getDatabasesPath();
-    String path = join(databasePath, 'kontak.db');
+    String path = join(databasePath, 'obat.db');
 
     return await openDatabase(path, version: 1, onCreate: _onCreate);
   }
@@ -47,13 +48,13 @@ class DbObat {
   }
 
   //insert ke database
-  Future<int?> saveKontak(Kontak kontak) async {
+  Future<int?> saveObat(Obat obat) async {
     var dbClient = await _db;
-    return await dbClient!.insert(tableName, kontak.toMap());
+    return await dbClient!.insert(tableName, obat.toMap());
   }
 
   //read database
-  Future<List?> getAllKontak() async {
+  Future<List?> getAllObat() async {
     var dbClient = await _db;
     var result = await dbClient!.query(tableName, columns: [
       columnId,
@@ -68,13 +69,13 @@ class DbObat {
   }
 
   //update database
-  Future<int?> updateKontak(Kontak kontak) async {
+  Future<int?> updateObat(Obat obat) async {
     var dbClient = await _db;
-    return await dbClient!.update(tableName, kontak.toMap(), where: '$columnId = ?', whereArgs: [kontak.id]);
+    return await dbClient!.update(tableName, obat.toMap(), where: '$columnId = ?', whereArgs: [obat.id]);
   }
 
   //hapus database
-  Future<int?> deleteKontak(int id) async {
+  Future<int?> deleteObat(int id) async {
     var dbClient = await _db;
     return await dbClient!.delete(tableName, where: '$columnId = ?', whereArgs: [id]);
   }
