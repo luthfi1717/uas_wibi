@@ -54,118 +54,131 @@ class _DetailPageState extends State<DetailPage> {
         ),
       ),
       body: ListView(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(20.0),
         children: [
           Padding(
             padding: const EdgeInsets.only(
-              top: 20,
-            ),
-            child: TextField(
-              enabled: false,
-              controller: NamaObat,
-              decoration: InputDecoration(
-                  labelText: 'Nama Obat',
-                  icon: Icon(
-                    Icons.account_circle_outlined,
-                    color: Color(0xff00aec4),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  )),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 20,
-            ),
-            child: TextField(
-              enabled: false,
-              controller: MerkObat,
-              decoration: InputDecoration(
-                  labelText: 'Merk Obat',
-                  icon: Icon(
-                    Icons.approval_outlined,
-                    color: Color(0xff00aec4),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  )),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 20,
-            ),
-            child: TextField(
-              enabled: false,
-              controller: JenisObat,
-              decoration: InputDecoration(
-                  labelText: 'Jenis Obat',
-                  icon: Icon(
-                    Icons.location_city_outlined,
-                    color: Color(0xff00aec4),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  )),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 20,
+              top: 10,
             ),
             child: Row(
               children: [
+                Icon(
+                  Icons.medication,
+                  color: Colors.green,
+                ),
+                SizedBox(width: 10),
+                Text("Nama Obat :", style: TextStyle(fontSize: 18)),
+                SizedBox(width: 10),
                 Flexible(
                     child: TextField(
+                      style: TextStyle(fontSize: 18.0),
                       enabled: false,
-                      controller: StockObat,
+                      controller: NamaObat,
                       decoration: InputDecoration(
-                          border: InputBorder.none,
-                          icon: Icon(
-                            Icons.storage,
-                            color: Color(0xff00aec4),
-                          )),
+                          border: InputBorder.none),
                     ),
                 ),
               ],
             )
           ),
           Padding(
-            padding: const EdgeInsets.only(
-              top: 20,
-            ),
-            child: TextField(
-              enabled: false,
-              controller: StockObat,
-              decoration: InputDecoration(
-                  labelText: 'Stock Obat',
-                  icon: Icon(
-                    Icons.call,
-                    color: Color(0xff00aec4),
+              padding: const EdgeInsets.only(
+                top: 1,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.local_library,
+                    color: Colors.green,
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  )),
-            ),
+                  SizedBox(width: 10),
+                  Text("Merk Obat :", style: TextStyle(fontSize: 18)),
+                  SizedBox(width: 10),
+                  Flexible(
+                    child: TextField(
+                      style: TextStyle(fontSize: 18.0),
+                      enabled: false,
+                      controller: MerkObat,
+                      decoration: InputDecoration(
+                          border: InputBorder.none),
+                    ),
+                  ),
+                ],
+              )
           ),
           Padding(
-            padding: const EdgeInsets.only(
-              top: 20,
-            ),
-            child: TextField(
-              enabled: false,
-              controller: HargaObat,
-              decoration: InputDecoration(
-                  labelText: 'Harga Obat',
-                  icon: Icon(
-                    Icons.email_outlined,
-                    color: Color(0xff00aec4),
+              padding: const EdgeInsets.only(
+                top: 1,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.switch_camera,
+                    color: Colors.green,
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  )),
-            ),
+                  SizedBox(width: 10),
+                  Text("Jenis Obat :", style: TextStyle(fontSize: 18)),
+                  SizedBox(width: 10),
+                  Flexible(
+                    child: TextField(
+                      style: TextStyle(fontSize: 18.0),
+                      enabled: false,
+                      controller: JenisObat,
+                      decoration: InputDecoration(
+                          border: InputBorder.none),
+                    ),
+                  ),
+                ],
+              )
+          ),
+          Padding(
+              padding: const EdgeInsets.only(
+                top: 1,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.add_shopping_cart,
+                    color: Colors.green,
+                  ),
+                  SizedBox(width: 10),
+                  Text("Stock Obat :", style: TextStyle(fontSize: 18)),
+                  SizedBox(width: 10),
+                  Flexible(
+                    child: TextField(
+                      style: TextStyle(fontSize: 18.0),
+                      enabled: false,
+                      controller: StockObat,
+                      decoration: InputDecoration(
+                          border: InputBorder.none),
+                    ),
+                  ),
+                ],
+              )
+          ),
+          Padding(
+              padding: const EdgeInsets.only(
+                top: 1,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.attach_money,
+                    color: Colors.green,
+                  ),
+                  SizedBox(width: 10),
+                  Text("Harga Obat :  Rp.", style: TextStyle(fontSize: 18)),
+                  Flexible(
+                    child: TextField(
+                      style: TextStyle(fontSize: 18.0),
+                      enabled: false,
+                      controller: HargaObat,
+                      decoration: InputDecoration(
+                          border: InputBorder.none),
+                    ),
+                  ),
+                ],
+              )
           ),
           Padding(
             padding: const EdgeInsets.only(top: 20),
@@ -179,30 +192,72 @@ class _DetailPageState extends State<DetailPage> {
         onPressed: () {
           //membuat dialog konfirmasi hapus
           AlertDialog hapus = AlertDialog(
-            title: Text("Information"),
+            title: Center(child: Text("Pembelian", style: TextStyle(fontWeight: FontWeight.bold))),
             content: Container(
-              height: 100,
+              height: 275,
               child: Column(
-                children: [
+                children:<Widget>[
                   Text(
-                      "Yakin ingin Menghapus Data$HargaObat"
-                  )
+                      "Apakah anda yakin ingin membeli item ini?"
+                  ),
+                  SizedBox(height: 40),
+                  Text(
+                      "Keterangan barang yang di beli : ", style: TextStyle(fontWeight: FontWeight.bold)
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    children: [
+                      SizedBox(width: 10),
+                      Text("Nama Obat :", style: TextStyle(fontSize: 16)),
+                      SizedBox(width: 10),
+                      Flexible(
+                        child: TextField(
+                          style: TextStyle(fontSize: 16.0),
+                          enabled: false,
+                          controller: NamaObat,
+                          decoration: InputDecoration(
+                              border: InputBorder.none),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(width: 10),
+                      Text("Harga Obat :  Rp.", style: TextStyle(fontSize: 16)),
+                      Flexible(
+                        child: TextField(
+                          style: TextStyle(fontSize: 16.0),
+                          enabled: false,
+                          controller: HargaObat,
+                          decoration: InputDecoration(
+                              border: InputBorder.none),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 15),
+                  Row(
+                    children: [
+                      SizedBox(width: 10),
+                      Text("Jumlah :  1", style: TextStyle(fontSize: 16)),
+                    ],
+                  ),
                 ],
               ),
             ),
             actions: [
               TextButton(
-                  child: Text("Ya"),
+                  child: Text("Ya", style: TextStyle(fontSize: 16, color: Colors.green, fontWeight: FontWeight.bold)),
                   onPressed: (){
                     Navigator.push(
                         context, MaterialPageRoute(builder: (context) => KasirMenuPage()));
                   },
               ),
               TextButton(
-                  child: Text('Tidak'),
+                  child: Text('Tidak', style: TextStyle(fontSize: 16, color: Colors.green,  fontWeight: FontWeight.bold)),
                   onPressed: () {
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => KasirMenuPage()));
+                    Navigator.pop(context);
                   },
               ),
             ],

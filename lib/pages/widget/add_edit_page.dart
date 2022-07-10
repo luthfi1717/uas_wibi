@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:uas_wibi/database/db_obat.dart';
 import 'package:uas_wibi/model/dataobat.dart';
@@ -117,6 +118,10 @@ class _AddEditPageState extends State<AddEditPage> {
               top: 20,
             ),
             child: TextField(
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
               controller: StockObat,
               decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
@@ -136,6 +141,10 @@ class _AddEditPageState extends State<AddEditPage> {
               top: 20,
             ),
             child: TextField(
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
               controller: HargaObat,
               decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(

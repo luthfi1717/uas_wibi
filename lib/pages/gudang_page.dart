@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:uas_wibi/database/db_obat.dart';
 import 'package:uas_wibi/model/dataobat.dart';
 import 'package:uas_wibi/pages/kasir_page.dart';
-import 'package:uas_wibi/pages/widget/detail_page.dart';
+import 'package:uas_wibi/pages/widget/detail_page_gudang.dart';
 import 'package:uas_wibi/pages/widget/add_edit_page.dart';
 
 
@@ -79,56 +79,48 @@ class GudangPageState extends State<GudangPage> {
             Obat obat = listObat[index];
             return Container(
               child: Card(
-                child: InkWell(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 10),
-                    child: ListTile(
-                      leading: Column(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                  child: ListTile(
+                    leading: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children:<Widget>[ Icon(
-                          Icons.accessibility_new,
+                          Icons.medical_services_outlined,
                           size: 50,
-                          )
+                        )
                         ]
-                      ),
-                      title: Text('${obat.NamaObat}'),
-                      subtitle: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              top: 8,
-                            ),
-                            child: Text("Merk Obat: ${obat.MerkObat}"),
+                    ),
+                    subtitle: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 5,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              top: 8,
-                            ),
-                            child: Text("Jenis Obat: ${obat.JenisObat}"),
+                          child: Text("Nama Obat: ${obat.NamaObat}"),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 5,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              top: 8,
-                            ),
-                            child: Text("Stock Obat: ${obat.StockObat}"),
+                          child: Text("Merk Obat: ${obat.MerkObat}"),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 5,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              top: 8,
-                            ),
-                            child: Text("Harga Obat: ${obat.HargaObat}"),
-                          ),
-                        ],
-                      ),
-                      trailing: FittedBox(
+                          child: Text("Harga : Rp.${obat.HargaObat}"),
+                        ),
+                      ],
+                    ),
+                    trailing: FittedBox(
                         fit: BoxFit.fill,
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children:<Widget>[
                             Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 // button edit
                                 IconButton(
@@ -142,13 +134,13 @@ class GudangPageState extends State<GudangPage> {
                                   onPressed: (){
                                     //membuat dialog konfirmasi hapus
                                     AlertDialog hapus = AlertDialog(
-                                      title: Text("Information"),
+                                      title: Text("Informasi"),
                                       content: Container(
                                         height: 100,
                                         child: Column(
                                           children: [
                                             Text(
-                                                "Yakin ingin Menghapus Data ${obat.NamaObat}"
+                                                "Yakin ingin Menghapus Data data ini?"
                                             )
                                           ],
                                         ),
@@ -159,10 +151,10 @@ class GudangPageState extends State<GudangPage> {
                                               _deleteObat(obat, index);
                                               Navigator.pop(context);
                                             },
-                                            child: Text("Ya")
+                                            child: Text("Ya", style: TextStyle(fontSize: 16, color: Colors.green,  fontWeight: FontWeight.bold))
                                         ),
                                         TextButton(
-                                          child: Text('Tidak'),
+                                          child: Text('Tidak', style: TextStyle(fontSize: 16, color: Colors.green,  fontWeight: FontWeight.bold)),
                                           onPressed: () {
                                             Navigator.pop(context);
                                           },
@@ -182,11 +174,8 @@ class GudangPageState extends State<GudangPage> {
                             ),
                           ],
                         )
-                      ),
                     ),
                   ),
-                onTap: () {
-                  }
                 ),
               ),
               decoration: new BoxDecoration(
@@ -250,7 +239,7 @@ class GudangPageState extends State<GudangPage> {
 
   Future<void> _openFormLook(Obat obat) async {
     var result = await Navigator.push(context,
-        MaterialPageRoute(builder: (context) => DetailPage(obat: obat)));
+        MaterialPageRoute(builder: (context) => DetailPageGudang(obat: obat)));
     if (result == 'back') {
       await _getAllObat();
     }
